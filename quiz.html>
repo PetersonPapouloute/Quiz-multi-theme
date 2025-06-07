@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initiale-scale=1.0">
+    <title>Quiz Multi-Thêmes</title>
+    <style>
+        body {
+            font-family: Arial, Sans-serif;
+            background: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1, h2{
+            color: #333;
+        }
+        .theme-btn{
+            padding: 10px 20px;
+            margin: 10px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .question-container{
+            display: none;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        .options-button{
+            display: block;
+            margin: 8px 0;
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            background: #eee;
+            cursor: pointer;
+        }
+        .resultat{
+            display: none;
+            font-size: 1.2em;
+            margin-top: 20px;
+            color: #333;
+        }
+    </style>
+    </head>
+    <body>
+        <h1>Quiz Multi-Thêmes</h1>
+        <h2>Choisis une catégorie</h2>
+
+        <div id="themes">
+            <button class="theme-btn" onclick="start quiz('Informatique')">Informatique</button>
+            <button class="theme-btn" onclick="start quiz('Histoire')">Histoire</button>
+            <button class="theme-btn" onclick="start quiz('Sciences')">Sciences</button>
+            <button class="theme-btn" onclick="start quiz('Football')">Football</button>
+        </div>
+
+        <div class="Question-container" id="quiz-container">
+            <h2 id="question"></h2>
+            <div class="Options" id="options"></div>
+        </div>
+
+        <div class="Result" id="result"></div>
+
+        <script>
+            const Question={
+                Informatique:[
+                  {
+                     Qustion: "Que signifie HTML?",
+                     Option:["Hyper Text Markup Language", "Home Tool Markup Language", "Hyperlink and Text Markup Language"],
+                     Answer: "Hyper Text Markup Language"
+                 },
+                 {
+                     Question: "Quel langage est utilisé pour le style?",
+                     Options:["HTML", "CSS", "JavaScript"],
+                     Answer: "CSS"
+                 },
+                {
+                    Question: "Que signifie BIOS?",
+                    Options:["Basic Input Output System", "Binary Integrated Operating System", "Basic Internal Output Software"],
+                    Answer: "Basic Input Output System"
+                },
+                {
+                    Question: "Quel est le langage principale utilisé pour developper les systemes d'exploitation?",
+                    Options:["Python", "Java", "C", "JavaScript"],
+                    Answer: "C"
+                },
+                {
+                    Question: "Quel est le ròle d’un compilateur?",
+                    OPtions:["Corriger les erreurs logiques", "Traduire le code source en langage machine", "Tester un programme"],
+                    Answer: "Traduire le code source en langage machine"
+                },
+                {
+                    Question: "Quel type de memoire est la plus rapide?",
+                    Options:["RAM", "ROM", "Disque dur", "Cache"],
+                    Answer: "Cache"
+                },
+                {
+                    Question: "Quel est le langage des machines?",
+                    Options:["Anglais", "Langage binaire", "Python", "Java"],
+                    Answer: "Langage machine"
+                },
+                {
+                    Qustion: "Que signifie HTTP?",
+                    Options:["HyperText Transfer Protocol", "Hyperlink Text Transfer Protocol", "None of the obove"],
+                    Answer: "HyperText Transfer Protocol"
+                },
+                {
+                    Question: "Quelle structure permet de répéter un bloc de code?",
+                    Options:["If", "While", "Break", "Switch"],
+                    Answer: "While"
+                },
+                {
+                    Question: "Quel périphérique est une sortie?",
+                    Options:["Clavier", "Souris", "Scanner", "Écran"],
+                    Answer: "Écran"
+                },
+                ],
+
+                Histoire:[
+                  {
+                     Question:"Quand a eu lieu la Révolution  française?",
+                     Options:["1789", "1804", "1776"],
+                    Answer:"1789"
+                  },
+                 {
+                     Question: "Qui a découvert Haiti?",
+                     Options: ["Dessalines", "Christoph Colomb", "Napoleon"],
+                     Answer: "Christoph Colomb"
+                 },
+                 {
+                    Question: "Quel mur est tombé en 1989, marquant la fin de la guerre froide?",
+                    Options:["Mur Hadrien", "Mur de Berlin", "Mur de Rome"],
+                    Answer: "Mur de Berlin"
+                 },
+                 {
+                    Question: "Comment s'appelait Haiti avant l’indépendance?",
+                    Options:["Hispaniola", "Saint-Domingue", "Antilles", "Port-au-prince"],
+                    Answer: "Saint-Domingue"
+                 },
+                 {
+                    Question: "Quel pays était dirigé par les pharaons?", 
+                    Options:["Grèce", "Inde", "Egypte", "Chine"],
+                    Answer: "Egypte"
+                 },
+                 {
+                    Question: "Quel héro haïtien est célèbre pour avoir crié « en avant ! » Sous une pluie de balles?",
+                    Options:["Charlemagne péralte", "Dessalines", "Capois-la-mort", "Boirond Tonnere"],
+                    Answer: "Capois-la-mort"
+                 },
+                 {
+                    Question: "Quel pays a imposé une dette a Haïti en échange de sa reconnaissance?",
+                    Options:["Angleterre", "Allemagne", "Espagne", "France"],
+                    Answer: "France"
+                 },
+                 {
+                    Question: "Quelle civilisation ancienne a construit les pyramides de Gizeh?",
+                    Options:["Mayas", "Romains", "Egypte", "Mésopotamiens"],
+                    Answer: "Egypte"
+                 },
+                ],
+
+                Sciences: [
+                    {
+                        Question: "La formule chimique de l'eau est?",
+                        Options: ["CO2", "H20", "NaCl"],
+                        Answer: "H2O"
+                    },
+                    {
+                        Question: "Quel organe pompe le sang?",
+                        Options: ["Le cerveau", "Le coeur", "Le foie"],
+                        Answer: "Le coeur"
+                    },
+                    {
+                       Question: "Quel est L’état de l’eau a 100·C?",
+                       Options:["Solide", "Plasma", "Gazeux", "Liquide"],
+                       Answer: "Gazeux"
+                    },
+                    {
+                       Question: "Combien de planètes compte le systeme solaire?",
+                       Options:["7", "8", "9", "10"],
+                       Answer: "8"
+                    },
+                    {
+                       Question: "Quelle force nous maintient au sol?",
+                       Options:["Le magnetisme", "La pression", "La gravité", " L’électricité "],
+                       Answer: "La gravité"
+                    },
+                    {
+                       Question: "Quel gaz les plantes arbsorbent-elles?",
+                       Options:["Oxygène", "Carbone", "Dioxyde de carbone", "Hydrogène"],
+                       Answer: "Dioxyde de carbone"
+                    },
+                    {
+                       Question: "Quel scientifique a proposé la loi de la gravitation universelle?",
+                       Options:["Einstein", "Newton", "Copernic", "Galilée"],
+                       Answer: "Newton"
+                    },
+                    {
+                      Question: "Quel est le plus grand organe du corps humain?",
+                      Options:["Le cerveau", "Le foie", "La peau", "Le coeur"],
+                      Answer: "La peau"
+                    },
+                ],
+                
+                Football:[
+                    {,
+                      Question: "Qui a gagné la coupe du monde 2018?",
+                      Options: ["France", "Bresil", "Argentine"],
+                      Answer: "France"
+                    },
+                    {
+                      Question: "Combien de ballon d'or a Cristiano Ronaldo?",
+                      Options: ["7", "5", "6", "4"],
+                      Answer: "5"
+                    },
+                    {
+                     Question: "Quel est le club avec le plus de ligues des champoins?",
+                     Options:["Liverpool", "Barcelone", "Real Madrid", "Bayern Munich"],
+                     Answer: "Real Madrid"
+                    },
+                    {
+                     Question: "Quel joueur a remporté le plus de ballon d’or?",
+                     Options:{"Pélé", "Ronaldo Nazario", "Lionel Messi", "Cristiano Ronaldo"},
+                     Answer: "Lionel Messi"
+                    },
+                    {
+                    Question: "Quel club est surnommé « Les Blaugranas »?",
+                    Options:["Real Madrid", "Barcelone", "Chelsea", "Inter Milan"],
+                    Answer: "Barcelone"
+                    },
+                    {
+                    Question: "Quel pays affricain a atteint les demi-finales de la coupe du monde 2022?",
+                    options:["Ghana", "Maroc", "Nigeria", "Sénégal "],
+                    Answer: "Maroc"
+                    },
+                    {
+                    Question: "Dans quel pays se joue la premiere league?",
+                    Options:["Espagne", "Allemagne", "Angleterre"],
+                    Answer: "Angleterre"
+                    },
+
+                ]
+            };
+            let currentTheme =null;
+            let currentQuestion = 0;
+            let score = 0;
+
+            function startquiz(theme){
+                currentTheme =theme;
+                currentQuestion = 0;
+                score= 0;
+                document.getElementById('theme').style.display ='none';
+                document.getElementById('result').style.display = 'none';
+                document.getElementById('quiz-container').style.display ='block';
+                showQuestion();
+            }
+
+            function showQuestion(){
+                const q = question[currentTheme][currentQuestion];
+                document.getElementById('question').textcontent = q.question;
+                const optionsDiv = document.getElementById('options');
+                optionsDiv.innerHTML = '';
+
+                q.options.forEach(option=> {
+                    const btn = document.createElement('button');
+                    btn.textContent =option;
+                    btn.onclick = () => checkAnswer(option);
+                    optionsDiv.appendChild(btn);
+                })
+            }
+
+            function chechAnswer (selected){
+                const correct = questions[currentTheme][currentQuestion].answer;
+                if (selected===correct) score++;
+                currentQuestion++;
+
+                if(currentQuestion < questions[currentTheme].length){
+                    showQuestion();
+                }else{
+                    showResult();
+                }
+            }
+
+            function showResult(){
+                document.getElementById('quiz-container').style.display = 'none';
+                const total = question[currentTheme].length;
+                document.getElementById('result').innerHTML =
+                `<p>Quiz terminer ! Score : ${score} / ${total}</p>
+                <button onclick="location.reload()">Rejouer</button>`;
+                document.getElementById('result').style.display = 'block';
+            }
+        </script>
+    </body>
+</html>
